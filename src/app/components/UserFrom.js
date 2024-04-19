@@ -3,17 +3,25 @@
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { addUser, setUser } from "@/lib/userSlice";
-import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, setUser, updateUser } from "@/lib/userSlice";
+import { useParams, useRouter } from "next/navigation";
 
-const UserForm = () => {
+const UserForm = ({ type }) => {
   const router = useRouter();
+  const { id } = useParams();
+
+  const currentUser = useSelector((state) =>
+    state.user.users.find((user) => user.id === Number(id))
+  );
+
+  console.log("currentUser", currentUser);
+
   const dispatch = useDispatch();
   const initialValues = {
-    name: "",
-    email: "",
-    contactNumber: "",
+    name: currentUser ? currentUser.name : "",
+    email: currentUser ? currentUser.email : "",
+    contactNumber: currentUser ? currentUser.contactNumber : "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -24,12 +32,19 @@ const UserForm = () => {
       .required("Contact number is required"),
   });
 
+  console.log("type", type);
   const handleSubmit = async (values) => {
     await new Promise((r) => setTimeout(r, 500));
     // alert(JSON.stringify(values, null, 2));
     console.log("LLLLL", values);
-    values.id = Math.floor(Math.random() * 1000);
-    dispatch(addUser(values));
+    if (type === "create") {
+      values.id = Math.floor(Math.random() * 1000);
+      dispatch(addUser(values));
+      router.push("/user/view");
+    } else {
+      dispatch(updateUser({ id: Number(id), newData: values }));
+      router.push("/user/view");
+    }
   };
 
   return (
@@ -123,7 +138,7 @@ const UserForm = () => {
               type="submit"
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Submit
+              {type === "create" ? "Create" : "Update"}
             </button>
           </Form>
         )}

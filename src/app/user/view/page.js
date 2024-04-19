@@ -2,20 +2,35 @@
 import { deleteUser } from "@/lib/userSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 function page() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const users = useSelector((state) => state.user.users);
 
   const handleDelete = (userId) => {
     dispatch(deleteUser(userId));
   };
 
-  console.log("users", users);
+  const handleEdit = (userId) => {
+    router.push(`/user/edit/${userId}`);
+  };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24 bg-white text-black">
+    <div className="flex min-h-screen flex-col items-center justify-start p-24 bg-white text-black">
       {" "}
+      <div className="flex items-end justify-end w-full my-6">
+        <button
+          className="text-indigo-600 
+         px-4 py-2 border border-indigo-600 hover:bg-indigo-600 
+          hover:text-white 
+         rounded-md shadow-sm text-sm font-medium"
+          onClick={() => router.push("/user/create")}
+        >
+          Create User
+        </button>
+      </div>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -60,6 +75,15 @@ function page() {
                 >
                   Delete
                 </button>
+                <button
+                  className="text-indigo-600 hover:text-indigo-900"
+                  onClick={() => {
+                    handleEdit(user.id);
+                  }}
+                >
+                  Edit
+                </button>
+
                 {/* Add edit functionality here */}
               </td>
             </tr>
