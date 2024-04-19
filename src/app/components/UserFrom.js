@@ -4,9 +4,11 @@ import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/lib/userSlice";
+import { addUser, setUser } from "@/lib/userSlice";
+import { useRouter } from "next/navigation";
 
 const UserForm = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const initialValues = {
     name: "",
@@ -26,7 +28,8 @@ const UserForm = () => {
     await new Promise((r) => setTimeout(r, 500));
     // alert(JSON.stringify(values, null, 2));
     console.log("LLLLL", values);
-    dispatch(setUser(values));
+    values.id = Math.floor(Math.random() * 1000);
+    dispatch(addUser(values));
   };
 
   return (
@@ -34,7 +37,13 @@ const UserForm = () => {
       className="mx-auto mt-8 bg-slate-100 border border-gray-200 p-8 rounded-md shadow-md
    md:w-96 w-full"
     >
-      <h1 className="text-2xl font-bold mb-4">User Form</h1>
+      <h1 className="text-2xl font-bold">User Form</h1>
+      <p
+        className="mb-4 text-slate-700 cursor-pointer text-sm"
+        onClick={() => router.push("/user/view")}
+      >
+        Users
+      </p>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
