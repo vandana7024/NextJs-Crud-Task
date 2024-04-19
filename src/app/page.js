@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Home({ Component, pageProps }) {
   const [posts, setPosts] = useState([]);
   const router = useRouter();
 

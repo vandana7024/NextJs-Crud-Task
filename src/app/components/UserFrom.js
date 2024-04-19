@@ -1,12 +1,13 @@
 "use client";
 
-// components/UserForm.js
-
 import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/lib/userSlice";
 
 const UserForm = () => {
+  const dispatch = useDispatch();
   const initialValues = {
     name: "",
     email: "",
@@ -25,6 +26,7 @@ const UserForm = () => {
     await new Promise((r) => setTimeout(r, 500));
     // alert(JSON.stringify(values, null, 2));
     console.log("LLLLL", values);
+    dispatch(setUser(values));
   };
 
   return (
