@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Card from "./components/Card";
 
-export default function Home({ Component, pageProps }) {
+export default function Home() {
   const [posts, setPosts] = useState([]);
   const router = useRouter();
 
@@ -28,22 +29,27 @@ export default function Home({ Component, pageProps }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-white text-black">
-      <h1>Hello</h1>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={() => {
-          router.push("/user/create");
-        }}
-      >
-        Create User
-      </button>
-      <div className="grid grid-cols-3 gap-4">
-        {posts.map((post) => (
-          <div key={post.id} className="border border-gray-200 p-4 rounded-md">
-            <h2 className="font-bold text-lg">{post.title}</h2>
-            <p className="mt-2">{post.body}</p>
-          </div>
-        ))}
+      <div className="flex items-center justify-end w-full my-2 gap-3">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => {
+            router.push("/server");
+          }}
+        >
+          Server Side
+        </button>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => {
+            router.push("/user/view");
+          }}
+        >
+          User
+        </button>
+      </div>
+
+      <div>
+        <Card posts={posts} />
       </div>
     </main>
   );

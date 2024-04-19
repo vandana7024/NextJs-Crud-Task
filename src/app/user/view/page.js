@@ -20,7 +20,16 @@ function page() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-start p-24 bg-white text-black">
       {" "}
-      <div className="flex items-end justify-end w-full my-6">
+      <div className="flex items-end justify-end w-full my-6 gap-3">
+        <button
+          className="text-indigo-600 
+         px-4 py-2 border border-indigo-600 hover:bg-indigo-600 
+          hover:text-white 
+         rounded-md shadow-sm text-sm font-medium"
+          onClick={() => router.push("/")}
+        >
+          Home
+        </button>
         <button
           className="text-indigo-600 
          px-4 py-2 border border-indigo-600 hover:bg-indigo-600 
@@ -70,18 +79,19 @@ function page() {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <button
-                  onClick={() => handleDelete(user.id)}
-                  className="text-red-600 hover:text-red-900 mr-2"
-                >
-                  Delete
-                </button>
-                <button
                   className="text-indigo-600 hover:text-indigo-900"
                   onClick={() => {
                     handleEdit(user.id);
                   }}
                 >
                   Edit
+                </button>
+                <span className="mx-2">|</span>
+                <button
+                  onClick={() => handleDelete(user.id)}
+                  className="text-red-600 hover:text-red-900 mr-2"
+                >
+                  Delete
                 </button>
 
                 {/* Add edit functionality here */}
